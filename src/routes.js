@@ -14,4 +14,7 @@ router.get('/order/:id', orderController.getOrder);
 // rota DELETE passando o id como parâmetro
 router.delete('/order/:id', orderController.deleteOrder);
 
+// rota PUT passando o id como parâmetro
+router.put('/order/:id', orderController.updateOrder);
+
 module.exports = router;
