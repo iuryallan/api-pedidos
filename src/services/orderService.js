@@ -22,8 +22,14 @@ async function listOrders() {
   return orders;
 }
 
+async function deleteOrder(orderId) {
+  const deletedOrder = await orderRepository.deleteOrderById(orderId);
+  return deletedOrder;
+}
+
 module.exports = {
   processNewOrder,
   getOrder,
   listOrders,
+  deleteOrder,
 };

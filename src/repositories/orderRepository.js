@@ -78,8 +78,30 @@ async function getAllOrders() {
   }
 }
 
+async function deleteOrderById(orderId) {
+  const client = await pool.connect();
+
+  try {
+    // deleta o pedido e o cascade no banco apaga os itens automaticamente
+    const result = await client.query(
+      `DELETE FROM "Order" WHERE orderId = $1 RETURNING *`,
+      [orderId],
+    );
+
+    // se rowCount for 0, quer dizer que nenhum pedido com esse id existia
+    if (result.rowCount === 0) {
+      return null;
+    }
+
+    return result.rows[0]; // retorna os dados do pedido que foi deletado
+  } finally {
+    client.release();
+  }
+}
+
 module.exports = {
   createOrderWithItems,
   getOrderById,
   getAllOrders,
+  deleteOrderById,
 };
