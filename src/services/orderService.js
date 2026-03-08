@@ -12,6 +12,12 @@ async function processNewOrder(payload) {
   return savedOrder;
 }
 
+async function getOrder(orderId) {
+  const order = await orderRepository.getOrderById(orderId);
+  return order;
+}
+
 module.exports = {
   processNewOrder,
+  getOrder,
 };
