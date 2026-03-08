@@ -99,9 +99,64 @@ async function deleteOrderById(orderId) {
   }
 }
 
+async function updateOrderWithItems(orderId, orderData) {
+  const client = await pool.connect();
+
+  try {
+    await client.query("BEGIN");
+
+    // atualiza a tabela principal
+    const updateOrderQuery = `
+            UPDATE "Order" 
+            SET value = $1, creationDate = $2 
+            WHERE orderId = $3 
+            RETURNING *;
+        `;
+    const orderResult = await client.query(updateOrderQuery, [
+      orderData.value,
+      orderData.creationDate,
+      orderId,
+    ]);
+
+    // se o pedido não existir cancela a transação e retorna nulo
+    if (orderResult.rowCount === 0) {
+      await client.query("ROLLBACK");
+      return null;
+    }
+
+    // deleta os itens antigos
+    await client.query(`DELETE FROM Items WHERE orderId = $1`, [orderId]);
+
+    // insere os novos itens
+    const insertItemQuery = `
+            INSERT INTO Items (orderId, productId, quantity, price) 
+            VALUES ($1, $2, $3, $4);
+        `;
+    for (const item of orderData.items) {
+      await client.query(insertItemQuery, [
+        orderId,
+        item.productId,
+        item.quantity,
+        item.price,
+      ]);
+    }
+
+    await client.query("COMMIT");
+
+    // retorna os dados com o id que foi usado na busca
+    return { orderId, ...orderData };
+  } catch (error) {
+    await client.query("ROLLBACK");
+    throw error;
+  } finally {
+    client.release();
+  }
+}
+
 module.exports = {
   createOrderWithItems,
   getOrderById,
   getAllOrders,
   deleteOrderById,
+  updateOrderWithItems,
 };
