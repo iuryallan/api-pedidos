@@ -22,11 +22,6 @@ async function listOrders() {
   return orders;
 }
 
-async function deleteOrder(orderId) {
-  const deletedOrder = await orderRepository.deleteOrderById(orderId);
-  return deletedOrder;
-}
-
 async function updateOrder(orderId, payload) {
   // transforma os dados que vieram em português
   const mappedData = transformOrderData(payload);
@@ -40,10 +35,15 @@ async function updateOrder(orderId, payload) {
   return updatedOrder;
 }
 
+async function deleteOrder(orderId) {
+  const deletedOrder = await orderRepository.deleteOrderById(orderId);
+  return deletedOrder;
+}
+
 module.exports = {
   processNewOrder,
   getOrder,
   listOrders,
-  deleteOrder,
   updateOrder,
+  deleteOrder,
 };
