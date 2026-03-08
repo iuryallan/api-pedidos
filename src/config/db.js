@@ -10,11 +10,6 @@ const pool = new Pool({
     database: process.env.DB_NAME,
 });
 
-// teste pra ver se a conexão funciona logo ao iniciar
-pool.on('connect', () => {
-    console.log('Banco de dados conectado com sucesso!');
-});
-
 // tratamento de erros no pool de conexões
 pool.on('error', (err) => {
     console.error('Erro inesperado no banco de dados', err);
