@@ -68,7 +68,18 @@ async function getOrderById(orderId) {
   }
 }
 
+async function getAllOrders() {
+  const client = await pool.connect();
+  try {
+    const result = await client.query(`SELECT * FROM "Order"`);
+    return result.rows;
+  } finally {
+    client.release();
+  }
+}
+
 module.exports = {
   createOrderWithItems,
   getOrderById,
+  getAllOrders,
 };

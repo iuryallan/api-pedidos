@@ -17,7 +17,13 @@ async function getOrder(orderId) {
   return order;
 }
 
+async function listOrders() {
+  const orders = await orderRepository.getAllOrders();
+  return orders;
+}
+
 module.exports = {
   processNewOrder,
   getOrder,
+  listOrders,
 };
