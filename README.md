@@ -42,15 +42,17 @@ Antes de começar, você precisará ter as seguintes ferramentas instaladas em s
 ## Instalação e Configuração
 
 **1. Clone o repositório**
-\`\`\`bash
-git clone https://github.com/SEU_USUARIO/NOME_DO_REPOSITORIO.git
-cd NOME_DO_REPOSITORIO
-\`\`\`
+```bash
+git clone https://github.com/iuryallan/api-pedidos.git
+```
+```bash
+cd api-pedidos
+```
 
 **2. Instale as dependências**
-\`\`\`bash
+```bash
 npm install
-\`\`\`
+```
 
 **3. Configure o Banco de Dados**
 Crie um banco de dados no PostgreSQL e execute a query presente no `schema.sql` localizado na raiz do projeto para criar as tabelas necessárias.
@@ -58,7 +60,7 @@ Crie um banco de dados no PostgreSQL e execute a query presente no `schema.sql` 
 **4. Configure as Variáveis de Ambiente**
 Crie um arquivo `.env` na raiz do projeto e preencha com a porta que vai rodar o servidor, suas credenciais do PostgreSQL e sua chave JWT. Você pode verificar como fazer isso no arquivo `.env.example` ou abaixo:
 
-\`\`\`env
+```env
 PORT=3000
 
 DB_USER=seu_usuario
@@ -68,7 +70,7 @@ DB_PORT=5432
 DB_NAME=nome_do_banco
 
 JWT_SECRET=chave_secreta_para_assinatura_do_token
-\`\`\`
+```
 
 ---
 
@@ -76,9 +78,9 @@ JWT_SECRET=chave_secreta_para_assinatura_do_token
 
 Para iniciar o servidor, execute o comando:
 
-\`\`\`bash
+```bash
 npm run dev
-\`\`\`
+```
 
 O servidor será iniciado na porta 3000 por padrão.
 
@@ -101,7 +103,7 @@ Com o servidor rodando, acesse no seu navegador: **http://localhost:3000/api-doc
 
 ## Estrutura do Projeto
 
-\`\`\`text
+```text
 src/
 ├── config/         # Configuração de conexão com o banco
 ├── controllers/    # Controladores da API (Action Pattern)
@@ -114,4 +116,4 @@ src/
 ├── routes.js       # Definição das rotas do Express
 └── swagger.json    # Configuração da documentação interativa
 schema.sql          # Script de criação do banco de dados
-\`\`\`
+```
