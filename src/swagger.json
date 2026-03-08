@@ -1,0 +1,203 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "title": "API de Pedidos - Jitterbit Challenge",
+    "version": "1.0.0",
+    "description": "Documentação da API RESTful de gerenciamento de pedidos com autenticação JWT e arquitetura em camadas."
+  },
+  "servers": [
+    {
+      "url": "http://localhost:3000",
+      "description": "Servidor Local"
+    }
+  ],
+  "components": {
+    "securitySchemes": {
+      "bearerAuth": {
+        "type": "http",
+        "scheme": "bearer",
+        "bearerFormat": "JWT"
+      }
+    }
+  },
+  "paths": {
+    "/register": {
+      "post": {
+        "summary": "Registrar novo usuário",
+        "tags": ["Autenticação"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": { "type": "string", "example": "admin" },
+                  "password": { "type": "string", "example": "senha123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Usuário criado com sucesso" },
+          "409": { "description": "Usuário já existe" }
+        }
+      }
+    },
+    "/login": {
+      "post": {
+        "summary": "Autenticar usuário",
+        "tags": ["Autenticação"],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "username": { "type": "string", "example": "admin" },
+                  "password": { "type": "string", "example": "senha123" }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Autenticado com sucesso, retorna o Token JWT" },
+          "401": { "description": "Credenciais inválidas" }
+        }
+      }
+    },
+    "/order": {
+      "post": {
+        "summary": "Criar um novo pedido",
+        "tags": ["Pedidos"],
+        "security": [{ "bearerAuth": [] }],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "numeroPedido": { "type": "string", "example": "v10089015vdb-01" },
+                  "valorTotal": { "type": "number", "example": 10000 },
+                  "dataCriacao": { "type": "string", "example": "2023-07-19T12:24:11.529Z" },
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "idItem": { "type": "string", "example": "2434" },
+                        "quantidadeItem": { "type": "number", "example": 1 },
+                        "valorItem": { "type": "number", "example": 1000 }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "201": { "description": "Pedido criado com sucesso" },
+          "401": { "description": "Não autorizado" }
+        }
+      }
+    },
+    "/order/list": {
+      "get": {
+        "summary": "Listar todos os pedidos",
+        "tags": ["Pedidos"],
+        "security": [{ "bearerAuth": [] }],
+        "responses": {
+          "200": { "description": "Lista de pedidos retornada" },
+          "401": { "description": "Não autorizado" }
+        }
+      }
+    },
+    "/order/{id}": {
+      "get": {
+        "summary": "Buscar um pedido por ID",
+        "tags": ["Pedidos"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "O número do pedido (ex: v10089015vdb-01)"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Dados do pedido encontrados" },
+          "404": { "description": "Pedido não encontrado" }
+        }
+      },
+      "put": {
+        "summary": "Atualizar um pedido inteiro",
+        "tags": ["Pedidos"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "O número do pedido a ser atualizado"
+          }
+        ],
+        "requestBody": {
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "numeroPedido": { "type": "string", "example": "v10089015vdb-01" },
+                  "valorTotal": { "type": "number", "example": 15000 },
+                  "dataCriacao": { "type": "string", "example": "2023-07-20T10:00:00.000Z" },
+                  "items": {
+                    "type": "array",
+                    "items": {
+                      "type": "object",
+                      "properties": {
+                        "idItem": { "type": "string", "example": "2434" },
+                        "quantidadeItem": { "type": "number", "example": 2 },
+                        "valorItem": { "type": "number", "example": 7500 }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "responses": {
+          "200": { "description": "Pedido atualizado com sucesso" },
+          "404": { "description": "Pedido não encontrado" }
+        }
+      },
+      "delete": {
+        "summary": "Deletar um pedido",
+        "tags": ["Pedidos"],
+        "security": [{ "bearerAuth": [] }],
+        "parameters": [
+          {
+            "in": "path",
+            "name": "id",
+            "required": true,
+            "schema": { "type": "string" },
+            "description": "O número do pedido a ser deletado"
+          }
+        ],
+        "responses": {
+          "200": { "description": "Pedido deletado com sucesso" },
+          "404": { "description": "Pedido não encontrado" }
+        }
+      }
+    }
+  }
+}
