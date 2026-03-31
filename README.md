@@ -1,4 +1,4 @@
-# Desafio Técnico Jitterbit - API de Pedidos
+# Desafio Técnico - API de Pedidos
 
 ![Node.js](https://img.shields.io/badge/Node.js-43853D?style=for-the-badge&logo=node.js&logoColor=white)
 ![Express.js](https://img.shields.io/badge/Express.js-404D59?style=for-the-badge)
@@ -6,7 +6,7 @@
 ![JWT](https://img.shields.io/badge/JWT-black?style=for-the-badge&logo=JSON%20web%20tokens)
 ![Swagger](https://img.shields.io/badge/-Swagger-%23Clojure?style=for-the-badge&logo=swagger&logoColor=white)
 
-Este repositório contém a solução para o desafio técnico da **Jitterbit**. Trata-se de uma API RESTful para o gerenciamento de pedidos e seus respectivos itens, desenvolvida em **Node.js** com **Express** e banco de dados **PostgreSQL**.
+Este repositório trata-se de uma API RESTful para o gerenciamento de pedidos e seus respectivos itens, desenvolvida em **Node.js** com **Express** e banco de dados **PostgreSQL**.
 
 ## Funcionalidades Implementadas
 
